@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RPS.iml" filepath="$PROJECT_DIR$/RPS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RPS-model/RPS-model.iml" filepath="$PROJECT_DIR$/RPS-model/RPS-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RPS-service/RPS-service.iml" filepath="$PROJECT_DIR$/RPS-service/RPS-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RPS-sql/RPS-sql.iml" filepath="$PROJECT_DIR$/RPS-sql/RPS-sql.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RPS-webapp/RPS-webapp.iml" filepath="$PROJECT_DIR$/RPS-webapp/RPS-webapp.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <title>首页</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="bootstrap/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <script src="bootstrap/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}" ></script>
+    <script src="bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <style>
+        body {
+            background-color: #f1f4f4;
+        }
+
+        .header {
+            background-color: #88c5e1;
+            border-bottom: 2px solid #54abd4;
+            height: 40px;
+        }
+
+        .header_big {
+            height: 40px;
+            width: 1000px;
+            line-height: 40px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .banner {
+            position: relative;
+        }
+
+        .main_left {
+            background-color: white;
+            height: 520px;
+            padding: 20px;
+        }
+
+        .main_left_line {
+            width: 6px;
+            height: 60px;
+            background-color: #bde6f9;
+            float: left;
+        }
+
+        .main_left_text {
+            font-size: 20px;
+            line-height: 60px;
+            margin-left: 10px;
+        }
+
+        .main_left_img {
+            height: 190px;
+            width: 190px;
+            border-radius: 100px;
+            background-color: red;
+            position: absolute;
+            top: 42px;
+            left: 236px;
+        }
+
+        .main_R {
+            background-color: white;
+            height: 520px;
+            padding: 20px;
+        }
+
+        .main_R_list {
+            padding-left: 25px;
+        }
+
+        .main_R_list div {
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="header_big">
+        <div class="" style="float:left;">
+            <a href="index.html" th:href="@{/}" >个人简历制作系统
+            </a>
+        </div>
+        <div class="" style="float:right;">
+            <a href="login.html" style="margin-right:10px;" th:href="@{/login}" >登录</a>
+            <a href="regist.html" th:href="@{/regist}" >注册</a>
+        </div>
+    </div>
+</div>
+<div class="banner">
+    <img style=" width:100%; " src="images/banner1.jpg" th:src="@{/images/banner1.jpg}" />
+    <div class="container" style="position:absolute; top:100px;">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="">
+                <input class="col-md-10" style=" height:50px;" type="text" />
+                <input class="col-md-2" style="height:50px;	" type="button" value="搜一下" />
+            </div>
+            <div class="col-md-12" style="color:#717171; font-size:12px;">
+                <span style="padding-right:6px;">WEB前端</span>
+                <span style="padding-right:6px;">美工</span>
+                <span style="padding-right:6px;">平面设计</span>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+<div class="main">
+    <div class="container">
+        <div class="col-md-8" style="margin-top:20px;">
+            <div class="main_left">
+                <div style="margin-bottom:10px;">
+                    <div class="main_left_line"></div>
+                    <span class="main_left_text">最新简历</span>
+                </div>
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox" style="position:relative;">
+                        <a class="item active" href="resume.html">
+                            <img style="width:100%;" src="images/5.jpg" />
+                            <div class="main_left_img"><img src="images/9.png" /></div>
+                            <div class="carousel-caption">
+                                最新简历1
+                            </div>
+                        </a>
+                        <a class="item" href="resume.html">
+                            <img style="width:100%;" src="images/5.jpg" th:src="@{/images/5.jpg}" />
+                            <div class="main_left_img"><img src="images/9.png" th:src="@{/images/9.png}" /></div>
+                            <div class="carousel-caption">
+                                最新简历2
+                            </div>
+                        </a>
+                        <a class="item" href="resume.html">
+                            <img style="width:100%;" src="images/5.jpg" th:src="@{/images/5.jpg}" />
+                            <div class="main_left_img"><img src="images/9.png" th:src="@{/images/9.png}" /></div>
+                            <div class="carousel-caption">
+                                最新简历3
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-4" style="margin-top:20px; margin-bottom:20px;">
+            <div class="main_R">
+                <div style="margin-bottom:10px;">
+                    <div class="main_left_line"></div>
+                    <span class="main_left_text">全部简历</span>
+                    <a href="all_resume.html" style="float:right; line-height:60px;">more>></a>
+                </div>
+                <div class="main_R_list">
+                    <div><a href="resume.html">1.计算机简历</a></div>
+                    <div><a href="resume.html">2.计算机简历</a></div>
+                    <div><a href="resume.html">3.计算机简历</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+</body>
+</html>

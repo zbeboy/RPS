@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry  location="${class.path.entrty}"/>
+<context id="MySqlTables" targetRuntime="MyBatis3">
+
+    <jdbcConnection driverClass="${jdbc.driverClassName}"
+                    connectionURL="${jdbc.url}"
+                    userId="${jdbc.user}"
+                    password="${jdbc.password}">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+        <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.${appName}.model" targetProject="${dao.target.dir}">
+        <property name="enableSubPackages" value="true" />
+        <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="com.${appName}.mapping"  targetProject="${dao.target.dir}">
+        <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.${appName}.dao"  targetProject="${dao.target.dir}">
+        <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table schema="${jdbc.schema}" tableName="users" domainObjectName="UsersDto" >
+    </table>
+
+    <table schema="${jdbc.schema}" tableName="authorities" domainObjectName="AuthoritiesDto" >
+    </table>
+
+    <table schema="${jdbc.schema}" tableName="personal" domainObjectName="PersonalDto" >
+    </table>
+
+    <table schema="${jdbc.schema}" tableName="enterprise" domainObjectName="EnterpriseDto" >
+    </table>
+
+    <table schema="${jdbc.schema}" tableName="resume" domainObjectName="ResumeDto" >
+    </table>
+
+    <table schema="${jdbc.schema}" tableName="message" domainObjectName="MessageDto" >
+    </table>
+
+</context>
+</generatorConfiguration>

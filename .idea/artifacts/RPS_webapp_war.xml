@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="RPS-webapp:war">
+    <output-path>$PROJECT_DIR$/RPS-webapp/target</output-path>
+    <root id="archive" name="RPS.war">
+      <element id="artifact" artifact-name="RPS-webapp:war exploded" />
+    </root>
+  </artifact>
+</component>

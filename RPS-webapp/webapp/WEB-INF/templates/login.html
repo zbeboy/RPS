@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <title>登录</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link href="bootstrap/bootstrap-switch.css" rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-switch.css}" />
+    <link rel="stylesheet" href="path/to/validator/jquery.validator.css" th:href="@{/css/jquery.validator.css}" />
+    <script type="text/javascript" charset="utf-8" src="bootstrap/jquery-1.11.3.min.js" th:href="@{/js/jquery-1.11.3.min.js}" ></script>
+    <script type="text/javascript" charset="utf-8" src="bootstrap/bootstrap.min.js" th:href="@{/js/bootstrap.min.js}" ></script>
+    <script type="text/javascript" charset="utf-8" src="bootstrap/bootstrap-switch.js" th:href="@{/js/bootstrap-switch.js}" ></script>
+    <script type="text/javascript" src="path/to/validator/jquery.validator.js" th:src="@{/js/jquery.validator.js}" ></script>
+    <script type="text/javascript" src="path/to/validator/local/zh_CN.js" th:src="@{/js/local/zh-CN.js}" ></script>
+    <style>
+        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, th, td {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: "microsoft yahei", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+            padding: 20px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .sinput {
+            width: 230px;
+            height: 34px;
+        }
+
+        .main {
+            width: 400px;
+            margin: 0 auto;
+            height: 300px;
+            border: solid 1px #bde6f9;
+            padding: 10px;
+        }
+
+        .top {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .top_logo {
+            width: 200px;
+            text-align: center;
+            height: 60px;
+            line-height: 60px;
+            float: left;
+            font-size: 24px;
+        }
+
+        .top_line {
+            border-right: solid 1px #bde6f9;
+            float: left;
+            margin-top: 10px;
+            height: 40px;
+        }
+
+        .top_login {
+            float: left;
+            text-align: center;
+            line-height: 60px;
+            margin-left: 10px;
+        }
+
+        .top_index {
+            float: right;
+            text-align: center;
+            line-height: 60px;
+            margin-left: 10px;
+        }
+
+        .line {
+            border-bottom: solid #bde6f9 1px;
+            width: 1000px;
+            margin: 10 auto;
+            clear: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="top">
+    <div class="top_logo">个人简历制作</div>
+    <div class="top_line"></div>
+    <div class="top_login">登录</div>
+    <a class="top_index" href="index.html" th:href="@{/}" >返回首页</a>
+    <div class="line"></div>
+</div>
+<div class="main">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs " role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+                                                  data-toggle="tab">用户登录</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <form>
+                <div style="margin:20px 0;">
+                    <span style="width:80px;color: #666;"> 用&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;名 </span>
+                    <input type="text" size="20" value="" class="sinput" id="nickName" maxlength="20" name="nickName" />
+                </div>
+                <div style="margin:20px 0;">
+                    <span style="width:80px;color: #666;">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;</span>
+                    <input type="password" size="30" class="sinput inp inw" name="password" id="password"
+                           maxlength="16" />
+                </div>
+                <input type="submit" value="登录" id="btnSubmit"
+                       style="margin-left:100px; height:30px; width:100px; line-height:30px; text-align:center;" />
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    //滑块
+    $('#ex1').slider({
+        formatter: function (value) {
+            return 'Current value: ' + value;
+        }
+    });
+</script>
+</body>
+</html>
