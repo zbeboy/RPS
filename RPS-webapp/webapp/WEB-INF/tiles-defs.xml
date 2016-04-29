@@ -36,4 +36,11 @@
     </definition>
     <definition name="regist" template="regist.html">
     </definition>
+
+    <definition name="searchresume" template="searchresume.html">
+        <put-attribute name="header" value="user/header.html"/>
+    </definition>
+    <definition name="resume" template="resume.html">
+        <put-attribute name="header" value="user/header.html"/>
+    </definition>
 </tiles-definitions>

@@ -12,4 +12,10 @@ public interface PersonalService {
      * @param personalDto
      */
     void save(PersonalDto personalDto);
+
+    /**
+     * 通过用户名查询
+     * @param username
+     */
+    PersonalDto findByUsername(String username);
 }

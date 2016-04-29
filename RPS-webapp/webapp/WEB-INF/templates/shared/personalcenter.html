@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>个人中心</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <script src="bootstrap/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}" ></script>
+    <script src="bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="js/all.js" th:src="@{/js/all.js}" ></script>
+    <style>
+        a{ display:block;}
+        li{ list-style:none; margin:0; padding:0;}
+        ul{ margin:0; padding:0;}
+        .header{ background-color:#88c5e1; border-bottom:2px solid #54abd4; height:40px;}
+        .header_big{ height:40px; width:1000px; line-height:40px;margin-left:auto; margin-right:auto;}
+        .header_right_back{float: right; width:40px; text-align:center;}
+        .header_right_person{width:100px; position:relative; float:right; text-align:center;}
+        .header_right_hide{width:98px; border:solid 1px #ddd; position:absolute; top:0px;left:0; z-index:1; text-align:center;}
+        .right_th{ width:140px; text-align:right; padding-left:10px; color: #666; line-height:40px; font-size:14px;}
+    </style>
+</head>
+<body >
+<div class="header">
+    <div class="header_big">
+        <div style="float:left;">
+            <a href="index.html">个人简历制作系统
+            </a>
+        </div>
+        <div class="">
+            <div class="header_right_back" >
+                <a href="register.html">退出</a>
+            </div>
+            <div class="header_right_person">
+                <span>17999****</span>
+                <div class="header_right_hide">
+                    <a style="margin-top:40px;" href="personal_center.html">个人中心</a>
+                    <a href="personal_center_msg.html">消息通知<span>1</span></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="main">
+    <div style="width:1000px; margin-left:auto; margin-right:auto; margin-top:20px;">
+        <div style=" width:180px; float:left; text-align:center; background-color:#fafafa;">
+            <div style=" padding-top:10px; font-size:24px; font-weight:400;line-height:40px;">个人中心</div>
+            <ul>
+                <a href="personal_center_data.html" style="line-height:40px;">修改资料</a>
+                <a href="personal_center_password.html" style="line-height:40px;">修改密码</a>
+                <a href="personal_center_myresume.html" style="line-height:40px;">我的简历</a>
+                <a href="personal_center_write.html" style="line-height:40px;">制作简历</a>
+                <a href="personal_center_msg.html" style="line-height:40px;">消息通知<strong style="color:red; padding:0 4px;">0</strong></a>
+            </ul>
+        </div>
+        <div style="width:800px; float:left; margin-left:20px;">
+            <div class="main_right_big">
+                <div style="color:red; font-size:20px; margin-bottom:10px;">个人中心</div>
+                <table>
+                    <tr>
+                        <th><span style=" height:190px; width:190px; padding-right:20px;"><img src="images/9.png" /></span></th>
+                        <td>
+                            <div style="padding:10px;">1799083217@qq.com</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

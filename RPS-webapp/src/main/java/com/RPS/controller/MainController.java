@@ -1,14 +1,11 @@
 package com.RPS.controller;
 
 import com.RPS.commons.WorkBook;
-import com.RPS.model.AuthoritiesDto;
-import com.RPS.model.PersonalDto;
-import com.RPS.model.UsersDto;
-import com.RPS.service.AuthoritiesService;
-import com.RPS.service.PersonalService;
-import com.RPS.service.UsersService;
+import com.RPS.model.*;
+import com.RPS.service.*;
 import com.RPS.util.MD5Utils;
 import com.RPS.vo.RegistVo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,6 +39,12 @@ public class MainController {
     @Resource
     private PersonalService personalService;
 
+    @Resource
+    private EnterpriseService enterpriseService;
+
+    @Resource
+    private ResumeService resumeService;
+
     /**
      * root
      *
@@ -54,8 +59,55 @@ public class MainController {
      * Home page.
      */
     @RequestMapping("/index")
-    public String index() {
+    public String index(ModelMap modelMap,HttpServletRequest request) {
+        List<ResumeDto> newResumes = resumeService.findAllAndPage(0,3,null);
+        List<ResumeDto> allResumes = resumeService.findAllAndPage(0,10,null);
+        modelMap.addAttribute("newResumes",newResumes);
+        modelMap.addAttribute("allResumes",allResumes);
+        UsersDto usersDto = usersService.getUserBySession();
+        if(StringUtils.isNotBlank(usersDto.getUsername())){
+            UsersDto usersDto1 = usersService.findByUsername(usersDto.getUsername());
+            if(usersDto1.getUserType().equals(WorkBook.USERS_PER)){
+                PersonalDto personalDto = personalService.findByUsername(usersDto.getUsername());
+                HttpSession httpSession = request.getSession();
+                httpSession.setAttribute("users",personalDto);
+            } else if(usersDto1.getUserType().equals(WorkBook.USERS_ENTER)){
+                EnterpriseDto enterpriseDto = enterpriseService.findByUsername(usersDto.getUsername());
+                HttpSession httpSession = request.getSession();
+                httpSession.setAttribute("users",enterpriseDto);
+            }
+        }
         return "index";
+    }
+
+    /**
+     * search resume
+     * @param title
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("/searchResume")
+    public String searchResume(@RequestParam("title") String title,ModelMap modelMap){
+        List<ResumeDto> resumes = resumeService.findAllAndPage(0,30,title);
+        for(ResumeDto r:resumes){
+            PersonalDto personalDto = personalService.findByUsername(r.getUsername());
+            r.setUsername(personalDto.getRealName());
+        }
+        modelMap.addAttribute("resumes",resumes);
+        return "searchresume";
+    }
+
+    /**
+     * single resume
+     * @param id
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("singleResume")
+    public String singleResume(@RequestParam("id") int id,ModelMap modelMap){
+        ResumeDto resumeDto = resumeService.findById(id);
+        modelMap.addAttribute("resume",resumeDto);
+        return "resume";
     }
 
     /**
@@ -109,7 +161,7 @@ public class MainController {
             usersDto.setUsername(username);
             usersDto.setPassword(MD5Utils.md5(StringUtils.trim(registVo.getPassword())));
             usersDto.setEnabled(true);
-            usersDto.setUserType(0);
+            usersDto.setUserType(WorkBook.USERS_PER);
             usersService.save(usersDto);
 
             AuthoritiesDto authoritiesDto = new AuthoritiesDto();

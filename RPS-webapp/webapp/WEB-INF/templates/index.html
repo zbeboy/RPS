@@ -84,8 +84,10 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <div class="">
-                <input class="col-md-10" style=" height:50px;" type="text" />
-                <input class="col-md-2" style="height:50px;	" type="button" value="搜一下" />
+                <form th:action="@{/searchResume}" method="post">
+                    <input class="col-md-10" style=" height:50px;" type="text" name="title" />
+                    <input class="col-md-2" style="height:50px;	" type="submit" value="搜一下" />
+                </form>
             </div>
             <div class="col-md-12" style="color:#717171; font-size:12px;">
                 <span style="padding-right:6px;">WEB前端</span>
@@ -113,26 +115,12 @@
                     </ol>
 
                     <!-- Wrapper for slides -->
-                    <div class="carousel-inner" role="listbox" style="position:relative;">
-                        <a class="item active" href="resume.html">
+                    <div class="carousel-inner" role="listbox" style="position:relative;" th:unless="${#lists.isEmpty(newResumes)}">
+                        <a class="item active" href="resume.html" th:each="nr:${newResumes}" >
                             <img style="width:100%;" src="images/5.jpg" th:src="@{/images/5.jpg}" />
                             <div class="main_left_img"><img src="images/9.png" th:src="@{/images/9.png}"  /></div>
-                            <div class="carousel-caption">
+                            <div class="carousel-caption" th:text="${nr.title}" >
                                 最新简历1
-                            </div>
-                        </a>
-                        <a class="item" href="resume.html">
-                            <img style="width:100%;" src="images/5.jpg" th:src="@{/images/5.jpg}" />
-                            <div class="main_left_img"><img src="images/9.png" th:src="@{/images/9.png}" /></div>
-                            <div class="carousel-caption">
-                                最新简历2
-                            </div>
-                        </a>
-                        <a class="item" href="resume.html">
-                            <img style="width:100%;" src="images/5.jpg" th:src="@{/images/5.jpg}" />
-                            <div class="main_left_img"><img src="images/9.png" th:src="@{/images/9.png}" /></div>
-                            <div class="carousel-caption">
-                                最新简历3
                             </div>
                         </a>
                     </div>
@@ -158,10 +146,8 @@
                     <span class="main_left_text">全部简历</span>
                     <a href="all_resume.html" style="float:right; line-height:60px;">more>></a>
                 </div>
-                <div class="main_R_list">
-                    <div><a href="resume.html">1.计算机简历</a></div>
-                    <div><a href="resume.html">2.计算机简历</a></div>
-                    <div><a href="resume.html">3.计算机简历</a></div>
+                <div class="main_R_list" th:unless="${#lists.isEmpty(allResumes)}" >
+                    <div th:each="ar:${allResumes}" ><a href="resume.html" th:text="${ar.title}" >1.计算机简历</a></div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>所有简历</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <script src="bootstrap/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}" ></script>
+    <script src="bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
+    <style>
+        body{ background-color:#f1f4f4;}
+        .header{ background-color:#88c5e1; border-bottom:2px solid #54abd4; height:40px;}
+        .header_big{ height:40px; width:1000px; line-height:40px;margin-left:auto; margin-right:auto;}
+        .main{width:1000px; margin-left:auto; margin-right:auto;}
+        .main_nav{float:left;font-size:24px; color:#3fbcef; margin:20px 0 20px 0;}
+        .main_resume_list{background-color:white;clear:left; border-left: solid 1px #ddd; border-right: solid 1px #ddd;}
+        .page{ text-align:center;}
+        .page a{padding: 10px 15px;margin-left: -5px;color: #585858;border: 1px solid #e6e7e8;font: 700 14px/34px Arial;}
+
+    </style>
+</head>
+<body >
+<div class="header" tiles:include="header">
+
+</div>
+
+<div class="main">
+    <div class="main_nav"><a href="all_resume.html">全部简历</a>>>搜索</div>
+    <div class="main_resume_list">
+        <div>
+            <table class="table table-striped" th:unless="${#lists.isEmpty(resumes)}">
+                <tr th:each="r:${resumes}">
+                    <td style="line-height:40px;"><a href="resume.html" th:text="${r.title}" >美工，编辑，平面设计</a></td>
+                    <td style="line-height:40px;" th:text="${r.username}">丫头</td>
+                    <td style="line-height:40px;" th:text="${r.create_time}" >今天</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="page">
+        <a>上一页</a>
+        <a>1</a>
+        <a>2</a>
+        <a>3</a>
+        <a>下一页</a>
+    </div>
+</div>
+</body>
+</html>

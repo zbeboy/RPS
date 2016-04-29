@@ -2,7 +2,7 @@ create table users(
   username varchar(200) not null primary key,
   password varchar(500) not null,
   enabled boolean not null,
-  user_type int comment '0普通用户,1企业'
+  user_type varchar(45) comment '普通用户,企业'
 );
 
 create table personal(
@@ -18,7 +18,7 @@ create table personal(
 
 create table enterprise(
   id int primary key auto_increment,
-  enterprise_name varchar(100),
+  real_name varchar(100),
   enterprise_address varchar(200),
   enterprise_phone varchar(45),
   enterprise_person varchar(20) comment '企业负责人',
@@ -37,14 +37,16 @@ create table authorities(
 
 create table resume(
   id int primary key auto_increment,
+  title varchar(45),
   education varchar(45),
   education_situation text comment '教育情况',
   practical_experience text comment '实践经历',
   self_evaluation text comment '自我评价',
   username varchar(200) not null,
   is_show boolean comment '是否展示',
-  is_pass int default 1 comment '0未审核,1通过,2未通过',
+  is_pass int default 0 comment '0未审核,1通过,2未通过',
   resume_img varchar(500) comment '简历封面',
+  create_time datetime default current_timestamp,
   foreign key(username) references users(username)
 );
 

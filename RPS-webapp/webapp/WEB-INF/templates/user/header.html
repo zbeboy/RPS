@@ -11,7 +11,7 @@
             <a href="javascript:;" onclick="javascript:$('#logout').submit();" >退出</a>
         </div>
         <div class="header_right_person">
-            <span>17999****</span>
+            <span th:text="${#httpSession.getAttribute('users').realName}" >17999****</span>
             <div class="header_right_hide">
                 <a style="margin-top:40px;" href="personal_center.html">个人中心</a>
                 <a href="#">消息通知<span>1</span></a>
