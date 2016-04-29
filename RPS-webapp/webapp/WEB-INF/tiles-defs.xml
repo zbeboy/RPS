@@ -26,6 +26,7 @@
         "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
     <definition name="index" template="index.html">
+        <put-attribute name="header" value="user/header.html"/>
     </definition>
     <definition name="error" template="error.html">
     </definition>
@@ -34,23 +35,5 @@
     <definition name="about" template="about.html">
     </definition>
     <definition name="regist" template="regist.html">
-    </definition>
-
-
-    <definition name="mainlayout" template="user/mainlayout.html">
-        <put-attribute name="head" value="user/head.html"/>
-        <put-attribute name="header" value="user/header.html"/>
-        <put-attribute name="upload" value="user/upload.html"/>
-        <put-attribute name="nav" value="user/classnav.html"/>
-        <put-attribute name="body" value="user/classbody.html"/>
-        <put-attribute name="footer" value="user/footer.html"/>
-    </definition>
-
-    <definition name="managerclass" extends="mainlayout">
-        <put-attribute name="body" value="admin/managerclassbody.html"/>
-    </definition>
-
-    <definition name="manageruser" extends="mainlayout">
-        <put-attribute name="body" value="class/manageruserbody.html"/>
     </definition>
 </tiles-definitions>

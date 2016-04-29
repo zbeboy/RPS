@@ -22,15 +22,17 @@
     <http auto-config="true" use-expressions="true">
         <!-- Login pages -->
         <form-login login-page="/login" authentication-failure-url="/login-error"
-                    default-target-url="/mainlayout" always-use-default-target="true"/>
+                    default-target-url="/index" always-use-default-target="true"
+                    login-processing-url="/j_spring_security_check" password-parameter="j_password"
+                    username-parameter="j_username"/>
         <!--session not validata-->
         <session-management invalid-session-url="/login"/>
-        <logout/>
+        <logout logout-url="/logout" logout-success-url="/index" />
         <!-- Security zones -->
-        <intercept-url pattern="/admin/**" access="hasRole('ROLE_SUPER')"/>
-        <intercept-url pattern="/class/**" access="hasAnyRole('ROLE_CLASS','ROLE_SUPER')"/>
-        <intercept-url pattern="/team/**" access="hasAnyRole('ROLE_TEAM','ROLE_CLASS','ROLE_SUPER')"/>
-        <intercept-url pattern="/user/**" access="hasAnyRole('ROLE_USER','ROLE_SUPER','ROLE_CLASS','ROLE_TEAM')"/>
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/enterprise/**" access="hasAnyRole('ROLE_ENTER','ROLE_ADMIN')"/>
+        <intercept-url pattern="/personal/**" access="hasAnyRole('ROLE_PER','ROLE_ADMIN')"/>
+        <intercept-url pattern="/shared/**" access="hasAnyRole('ROLE_ADMIN','ROLE_ENTER','ROLE_PER')"/>
         <!--<intercept-url pattern="/shared/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />-->
     </http>
     <!--进行md5加密-->

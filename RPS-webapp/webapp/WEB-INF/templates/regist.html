@@ -1,15 +1,23 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <title>注册</title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- csrf -->
+    <meta name="_csrf" content="" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="" th:content="${_csrf.headerName}"/>
+
     <link href="bootstrap/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link rel="stylesheet" href="path/to/validator/jquery.validator.css" th:href="@{/css/jquery.validator.css}" />
     <script type="text/javascript" th:src="@{/js/jquery-1.11.3.min.js}" src="bootstrap/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" th:src="@{/js/bootstrap.min.js}" src="bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="path/to/validator/jquery.validator.js" th:src="@{/js/jquery.validator.js}" ></script>
     <script type="text/javascript" src="path/to/validator/local/zh_CN.js" th:src="@{/js/local/zh-CN.js}" ></script>
+
+    <script src="js/csrf.js" th:src="@{/js/csrf.js}"></script>
+
     <style>
         .sinput {
             width: 230px;
@@ -29,20 +37,22 @@
     <div style="margin-top:30px;">
         <div style=" font-size:20px;">邮箱注册</div>
         <div style="border-bottom: #CCC solid 2px;"></div>
-        <form data-validator-option="{theme:'yellow_right_effect',stopOnError:true}">
+        <form th:action="@{/userRegister}" data-validator-option="{theme:'yellow_right_effect',stopOnError:true}" method="post">
             <div>
                 <div style="margin:20px 0;">
                     <span style="width:80px;color: #666;">电&nbsp;子&nbsp;邮&nbsp;件&nbsp;</span>
-                    <input type="text" size="20" class="sinput" id="txtemail" maxlength="20" name="txtemail"  data-rule="required;email;"/>
+                    <input type="text" size="20" class="sinput" id="txtemail" maxlength="20" name="email"  data-rule="required;email;remote[/validateEmail]"/>
                 </div>
                 <div style="margin:20px 0;">
                     <span style="width:80px;color: #666;">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;</span>
-                    <input type="password" size="30" class="sinput" name="password" id="password" maxlength="16"  data-rule="密码:required;"/>
+                    <input type="password" size="30" class="sinput" name="password" id="password" maxlength="16"  data-rule="密码:required;password" data-rule-password="[/^\w{6,}$/, '请填写6位及以上任意字母组成']"
+                           data-msg-required="请填写密码" data-tip="密码由6位及以上任意字母组成"/>
                 </div>
                 <div style="margin:20px 0;">
                     <span style="width:80px;color: #666;">确&nbsp;认&nbsp;密&nbsp;码&nbsp;</span>
                     <input type="password" size="30" class="sinput" name="cpassword" id="cpassword" maxlength="16"  data-rule="确认密码:required;match(password);"/>
                 </div>
+                <p th:text="${msg}"></p>
                 <input type="submit" value="立即注册" id="btnSubmit" style="margin-left:100px;"/>
             </div>
         </form>

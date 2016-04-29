@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <title>首页</title>
     <meta charset="utf-8" />
@@ -75,17 +75,8 @@
     </style>
 </head>
 <body>
-<div class="header">
-    <div class="header_big">
-        <div class="" style="float:left;">
-            <a href="index.html" th:href="@{/}" >个人简历制作系统
-            </a>
-        </div>
-        <div class="" style="float:right;">
-            <a href="login.html" style="margin-right:10px;" th:href="@{/login}" >登录</a>
-            <a href="regist.html" th:href="@{/regist}" >注册</a>
-        </div>
-    </div>
+<div class="header" tiles:include="header">
+
 </div>
 <div class="banner">
     <img style=" width:100%; " src="images/banner1.jpg" th:src="@{/images/banner1.jpg}" />
@@ -124,8 +115,8 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox" style="position:relative;">
                         <a class="item active" href="resume.html">
-                            <img style="width:100%;" src="images/5.jpg" />
-                            <div class="main_left_img"><img src="images/9.png" /></div>
+                            <img style="width:100%;" src="images/5.jpg" th:src="@{/images/5.jpg}" />
+                            <div class="main_left_img"><img src="images/9.png" th:src="@{/images/9.png}"  /></div>
                             <div class="carousel-caption">
                                 最新简历1
                             </div>

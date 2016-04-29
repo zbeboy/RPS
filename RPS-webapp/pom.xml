@@ -19,6 +19,7 @@
         <thymeleaf.version>2.1.4.RELEASE</thymeleaf.version>
         <thymeleaf.tiles.version>2.1.1.RELEASE</thymeleaf.tiles.version>
         <jackson.version>1.9.13</jackson.version>
+        <com.fasterxml.jackson.core.version>2.7.4</com.fasterxml.jackson.core.version>
     </properties>
 
     <dependencies>
@@ -142,14 +143,34 @@
         </dependency>
 
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${com.fasterxml.jackson.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${com.fasterxml.jackson.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.7.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20160212</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.3.0.Alpha1</version>
         </dependency>
 
         <dependency>

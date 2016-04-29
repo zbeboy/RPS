@@ -44,6 +44,7 @@ create table resume(
   username varchar(200) not null,
   is_show boolean comment '是否展示',
   is_pass int default 1 comment '0未审核,1通过,2未通过',
+  resume_img varchar(500) comment '简历封面',
   foreign key(username) references users(username)
 );
 

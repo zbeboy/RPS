@@ -1,0 +1,32 @@
+<div class="header_big" sec:authorize="isAuthenticated()">
+    <div style="float:left;">
+        <a href="index.html">个人简历制作系统
+        </a>
+    </div>
+    <form th:action="@{/logout}" method="POST" id="logout" style="display: none" >
+        <input type="submit" />
+    </form>
+    <div class="">
+        <div class="header_right_back" >
+            <a href="javascript:;" onclick="javascript:$('#logout').submit();" >退出</a>
+        </div>
+        <div class="header_right_person">
+            <span>17999****</span>
+            <div class="header_right_hide">
+                <a style="margin-top:40px;" href="personal_center.html">个人中心</a>
+                <a href="#">消息通知<span>1</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="header_big" sec:authorize="!isAuthenticated()">
+    <div class="" style="float:left;">
+        <a href="index.html" th:href="@{/}" >个人简历制作系统
+        </a>
+    </div>
+    <div class="" style="float:right;">
+        <a href="login.html" style="margin-right:10px;" th:href="@{/login}" >登录</a>
+        <a href="regist.html" th:href="@{/regist}" >注册</a>
+    </div>
+</div>

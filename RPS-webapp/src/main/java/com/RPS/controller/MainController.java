@@ -1,12 +1,29 @@
 package com.RPS.controller;
 
+import com.RPS.commons.WorkBook;
+import com.RPS.model.AuthoritiesDto;
+import com.RPS.model.PersonalDto;
+import com.RPS.model.UsersDto;
+import com.RPS.service.AuthoritiesService;
+import com.RPS.service.PersonalService;
+import com.RPS.service.UsersService;
+import com.RPS.util.MD5Utils;
+import com.RPS.vo.RegistVo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.util.ObjectUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.Locale;
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Application home page and login.
@@ -14,8 +31,18 @@ import java.util.Locale;
 @Controller
 public class MainController {
 
+    @Resource
+    private UsersService usersService;
+
+    @Resource
+    private AuthoritiesService authoritiesService;
+
+    @Resource
+    private PersonalService personalService;
+
     /**
      * root
+     *
      * @return
      */
     @RequestMapping("/")
@@ -33,27 +60,71 @@ public class MainController {
 
     /**
      * login page.
+     *
      * @return
      */
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     /**
      * regist page.
+     *
      * @return
      */
     @RequestMapping("/regist")
-    public String register(){
+    public String register() {
         return "regist";
     }
+
     /**
-     * User zone index.
+     * validate email
      */
-    @RequestMapping("/user/index")
-    public String userIndex() {
-        return "user/index";
+    @RequestMapping("/validateEmail")
+    @ResponseBody
+    public Map<String, Object> validateEmail(@RequestParam("email") String email) {
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isNotEmpty(email)) {
+            UsersDto usersDto = usersService.findByUsername(email);
+            if (ObjectUtils.isEmpty(usersDto)) {
+                map.put("ok", "");
+            } else {
+                map.put("error", "该邮箱已注册!");
+            }
+        } else {
+            map.put("error", "参数异常!");
+        }
+        return map;
+    }
+
+    /**
+     * user register
+     */
+    @RequestMapping("/userRegister")
+    public String userRegister(@Valid RegistVo registVo, BindingResult bindingResult, ModelMap modelMap){
+        if(!bindingResult.hasErrors()&&StringUtils.equals(registVo.getPassword(),registVo.getCpassword())){
+            String username = StringUtils.trim(registVo.getEmail());
+            UsersDto usersDto = new UsersDto();
+            usersDto.setUsername(username);
+            usersDto.setPassword(MD5Utils.md5(StringUtils.trim(registVo.getPassword())));
+            usersDto.setEnabled(true);
+            usersDto.setUserType(0);
+            usersService.save(usersDto);
+
+            AuthoritiesDto authoritiesDto = new AuthoritiesDto();
+            authoritiesDto.setUsername(username);
+            authoritiesDto.setAuthority(WorkBook.RPS_PER);
+            authoritiesService.save(authoritiesDto);
+
+            PersonalDto personalDto = new PersonalDto();
+            personalDto.setUsername(username);
+            personalService.save(personalDto);
+            modelMap.addAttribute("msg","注册成功!");
+        } else {
+            modelMap.addAttribute("msg","验证信息有误!");
+        }
+        return "regist";
     }
 
     /**
@@ -62,6 +133,22 @@ public class MainController {
     @RequestMapping("/admin/index")
     public String adminIndex() {
         return "admin/index";
+    }
+
+    /**
+     * Enterprise zone index.
+     */
+    @RequestMapping("/enterprise/index")
+    public String enterpriseIndex() {
+        return "enterprise/index";
+    }
+
+    /**
+     * Personal zone index.
+     */
+    @RequestMapping("/personal/index")
+    public String personalIndex() {
+        return "enterprise/index";
     }
 
     /**
@@ -77,7 +164,7 @@ public class MainController {
      */
     @RequestMapping("/login-error")
     public String loginError(Model model) {
-        model.addAttribute("loginError", true);
+        model.addAttribute("msg", "用户名或密码错误!");
         return "login";
     }
 
