@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns="http://www.w3.org/1999/html">
+  
+<!-- Mirrored from v3.bootcss.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2013], Sun, 26 Jan 2014 11:51:16 GMT -->
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="description" content=""/>
+	<meta name="author" content=""/>
+
+	<!-- csrf -->
+	<meta name="_csrf" content="" th:content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf_header" content="" th:content="${_csrf.headerName}"/>
+
+	<link rel="shortcut icon" href="ico/favicon.png" th:href="@{/ico/favicon.png}"/>
+
+	<title>Starter Template for Bootstrap</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+
+	<!-- Custom styles for this template -->
+	<link href="css/starter-template.css" rel="stylesheet" th:href="@{/css/starter-template.css}"/>
+
+	<link rel="stylesheet" href="path/to/validator/jquery.validator.css" th:href="@{/css/jquery.validator.css}" />
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+	<script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" tiles:include="header">
+
+    </div>
+
+    <div class="container">
+
+      <div class="starter-template">
+		<div class="col-md-4" tiles:include="nav">
+
+		</div>
+		<div class="col-md-8">
+			<form class="form-horizontal" role="form" data-validator-option="{theme:'yellow_right_effect',stopOnError:true}" method="post" th:action="@{/personal/savePersonalWriter}">
+				<div class="form-group">
+					<label for="title" class="col-sm-2 control-label">标题</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="title" name="title" placeholder="标题" data-rule="required;length[1~45];" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="realName" class="col-sm-2 control-label">姓名</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="realName" name="realName" th:value="${#httpSession.getAttribute('users').realName}" placeholder="姓名" data-rule="required;length[~45];" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-sm-2 control-label">性别</label>
+					<div class="col-sm-6" th:if="${#httpSession.getAttribute('users').sex == 1}">
+						<div class="radio">
+							<label>
+								<input type="radio" name="sex" value="1" checked="checked" />
+									男
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="sex" value="0" />
+									女
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-6" th:if="${#httpSession.getAttribute('users').sex == 0}">
+						<div class="radio">
+							<label>
+								<input type="radio" name="sex" value="1"  />
+								男
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input type="radio" name="sex" value="0" checked="checked"/>
+								女
+							</label>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="age" class="col-sm-2 control-label">年龄</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="age" name="age" th:value="${#httpSession.getAttribute('users').age}" placeholder="年龄" data-rule="required;integer[+];" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="education" class="col-sm-2 control-label">学历</label>
+					<div class="col-sm-6" >
+						<select class="form-control" id="education" name="education" >
+							<option>高中以下</option>
+							<option>高中</option>
+							<option>中专</option>
+							<option>大专</option>
+							<option selected="selected">本科</option>
+							<option>硕士</option>
+							<option>博士</option>
+							<option>博士后</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="telNo" class="col-sm-2 control-label">手机号</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="telNo" name="telNo" th:value="${#httpSession.getAttribute('users').telNo}"  placeholder="手机号" data-rule="required;mobile;" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="educationSituation" class="col-sm-2 control-label">教育情况</label>
+					<div class="col-sm-6">
+						<textarea class="form-control" id="educationSituation" name="educationSituation" rows="3" data-rule="required;length[6~500];" ></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="practicalExperience" class="col-sm-2 control-label">实践经历</label>
+					<div class="col-sm-6">
+						<textarea class="form-control" id="practicalExperience" name="practicalExperience" rows="3" data-rule="required;length[6~1500];"></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="selfEvaluation" class="col-sm-2 control-label">自我评价</label>
+					<div class="col-sm-6">
+						<textarea class="form-control" id="selfEvaluation" name="selfEvaluation" rows="3" data-rule="required;length[6~1000];"></textarea>
+					</div>
+				</div>
+			
+				<div class="form-group">
+					<div class="col-sm-12 text-center">
+						<button type="submit" class="btn btn-default">保存</button>
+					</div>
+				</div>
+			</form>
+		</div>
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+	<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+	<script src="js/csrf.js" th:src="@{/js/csrf.js}"></script>
+	<script type="text/javascript" src="path/to/validator/jquery.validator.js" th:src="@{/js/jquery.validator.js}" ></script>
+	<script type="text/javascript" src="path/to/validator/local/zh_CN.js" th:src="@{/js/local/zh-CN.js}" ></script>
+	<script src="js/rps/personalpassword.js" th:src="@{/js/rps/personalwriter.js}"></script>
+  </body>
+
+<!-- Mirrored from v3.bootcss.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2013], Sun, 26 Jan 2014 11:51:16 GMT -->
+</html>

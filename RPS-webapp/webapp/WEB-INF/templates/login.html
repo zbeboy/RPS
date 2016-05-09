@@ -1,140 +1,89 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<!-- Mirrored from v3.bootcss.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2013], Sun, 26 Jan 2014 11:51:16 GMT -->
 <head>
-    <title>登录</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
     <!-- csrf -->
     <meta name="_csrf" content="" th:content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" content="" th:content="${_csrf.headerName}"/>
 
-    <link href="bootstrap/bootstrap.min.css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-    <link href="bootstrap/bootstrap-switch.css" rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-switch.css}" />
+    <link rel="shortcut icon" href="ico/favicon.png" th:href="@{/ico/favicon.png}" />
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/starter-template.css" rel="stylesheet" th:href="@{/css/starter-template.css}" />
+
     <link rel="stylesheet" href="path/to/validator/jquery.validator.css" th:href="@{/css/jquery.validator.css}" />
-    <script type="text/javascript" charset="utf-8" src="bootstrap/jquery-1.11.3.min.js" th:src="@{/js/jquery-1.11.3.min.js}" ></script>
-    <script type="text/javascript" charset="utf-8" src="bootstrap/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
-    <script type="text/javascript" charset="utf-8" src="bootstrap/bootstrap-switch.js" th:src="@{/js/bootstrap-switch.js}" ></script>
-    <script type="text/javascript" src="path/to/validator/jquery.validator.js" th:src="@{/js/jquery.validator.js}" ></script>
-    <script type="text/javascript" src="path/to/validator/local/zh_CN.js" th:src="@{/js/local/zh-CN.js}" ></script>
 
-    <script src="js/csrf.js" th:src="@{/js/csrf.js}"></script>
-
-    <style>
-        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, th, td {
-            padding: 0;
-            margin: 0;
-        }
-
-        body {
-            font-family: "microsoft yahei", "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-            padding: 20px;
-            color: #666666;
-            font-size: 14px;
-        }
-
-        .sinput {
-            width: 230px;
-            height: 34px;
-        }
-
-        .main {
-            width: 400px;
-            margin: 0 auto;
-            height: 300px;
-            border: solid 1px #bde6f9;
-            padding: 10px;
-        }
-
-        .top {
-            width: 1000px;
-            margin: 0 auto;
-        }
-
-        .top_logo {
-            width: 200px;
-            text-align: center;
-            height: 60px;
-            line-height: 60px;
-            float: left;
-            font-size: 24px;
-        }
-
-        .top_line {
-            border-right: solid 1px #bde6f9;
-            float: left;
-            margin-top: 10px;
-            height: 40px;
-        }
-
-        .top_login {
-            float: left;
-            text-align: center;
-            line-height: 60px;
-            margin-left: 10px;
-        }
-
-        .top_index {
-            float: right;
-            text-align: center;
-            line-height: 60px;
-            margin-left: 10px;
-        }
-
-        .line {
-            border-bottom: solid #bde6f9 1px;
-            width: 1000px;
-            margin: 10 auto;
-            clear: right;
-        }
-    </style>
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="http://cdn.bootcss.com/html5shiv/3.7.0/html5shiv.min.js"></script>
+    <script src="http://cdn.bootcss.com/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
 </head>
+
 <body>
 
-<div class="top">
-    <div class="top_logo">个人简历制作</div>
-    <div class="top_line"></div>
-    <div class="top_login">登录</div>
-    <a class="top_index" href="index.html" th:href="@{/}" >返回首页</a>
-    <div class="line"></div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">个人简历制作系统</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">登录</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
 </div>
-<div class="main">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs " role="tablist">
-        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
-                                                  data-toggle="tab">用户登录</a></li>
-    </ul>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="home">
-            <form th:action="@{/j_spring_security_check}" method="post" data-validator-option="{theme:'yellow_right_effect',stopOnError:true}" >
-                <div style="margin:20px 0;">
-                    <span style="width:80px;color: #666;"> 用&nbsp;&nbsp;&nbsp;户&nbsp;&nbsp;&nbsp;&nbsp;名 </span>
-                    <input type="text" size="20" value="" class="sinput" id="nickName" maxlength="20" name="j_username" data-rule="required;email" />
-                </div>
-                <div style="margin:20px 0;">
-                    <span style="width:80px;color: #666;">密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;</span>
-                    <input type="password" size="30" class="sinput inp inw" name="j_password" id="password"
-                           maxlength="16" data-rule="密码:required;password" data-rule-password="[/^\w{6,}$/, '请填写6位及以上任意字母组成']"  data-msg-required="请填写密码" />
-                </div>
+<div class="container">
+
+    <div class="starter-template">
+        <div class="col-md-4 col-md-offset-3">
+            <form class="form-signin" role="form" th:action="@{/j_spring_security_check}" method="post" data-validator-option="{theme:'yellow_right_effect',stopOnError:true}">
+                <h2 class="form-signin-heading">登录系统</h2>
+                <input type="email" class="form-control" placeholder="邮箱" autofocus="autofocus" name="j_username" data-rule="required;email" />
+                <input type="password" class="form-control" placeholder="密码" name="j_password" data-rule="密码:required;password" data-rule-password="[/^\w{6,}$/, '请填写6位及以上任意字母组成']"  data-msg-required="请填写密码" />
+                <p class="text-right">
+                    <a href="#" th:href="@{/regist}" >注册</a>
+                </p>
                 <p th:text="${msg}"></p>
-                <input type="submit" value="登录" id="btnSubmit"
-                       style="margin-left:100px; height:30px; width:100px; line-height:30px; text-align:center;" />
+                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
             </form>
         </div>
     </div>
 
-</div>
+</div><!-- /.container -->
 
 
-<script>
-    //滑块
- /*   $('#ex1').slider({
-        formatter: function (value) {
-            return 'Current value: ' + value;
-        }
-    });*/
-</script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.min.js" th:src="@{/js/jquery.min.js}" ></script>
+<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" ></script>
+<script src="js/csrf.js" th:src="@{/js/csrf.js}"></script>
+<script type="text/javascript" src="path/to/validator/jquery.validator.js" th:src="@{/js/jquery.validator.js}" ></script>
+<script type="text/javascript" src="path/to/validator/local/zh_CN.js" th:src="@{/js/local/zh-CN.js}" ></script>
 </body>
+
+<!-- Mirrored from v3.bootcss.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2013], Sun, 26 Jan 2014 11:51:16 GMT -->
 </html>

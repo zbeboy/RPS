@@ -31,4 +31,10 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         }
         return null;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
+    public void save(EnterpriseDto enterpriseDto) {
+        enterpriseDtoMapper.insert(enterpriseDto);
+    }
 }

@@ -13,4 +13,10 @@ public interface EnterpriseService {
      * @return
      */
     EnterpriseDto findByUsername(String username);
+
+    /**
+     * 保存企业用户
+     * @param enterpriseDto
+     */
+    void save(EnterpriseDto enterpriseDto);
 }

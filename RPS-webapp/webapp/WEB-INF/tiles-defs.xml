@@ -37,6 +37,33 @@
     <definition name="regist" template="regist.html">
     </definition>
 
+    <definition name="admin/index" extends="index">
+        <put-attribute name="header" value="admin/header.html"/>
+    </definition>
+
+    <definition name="enterprise/index" extends="index">
+        <put-attribute name="header" value="enterprise/header.html"/>
+    </definition>
+
+    <definition name="personal/index" extends="index">
+        <put-attribute name="header" value="personal/header.html"/>
+    </definition>
+
+    <definition name="personal/personalcenter" template="personal/personalcenter.html">
+        <put-attribute name="header" value="personal/header.html"/>
+        <put-attribute name="nav" value="personal/nav.html"/>
+    </definition>
+
+    <definition name="personal/personalpassword" template="personal/personalpassword.html">
+        <put-attribute name="header" value="personal/header.html"/>
+        <put-attribute name="nav" value="personal/nav.html"/>
+    </definition>
+
+    <definition name="personal/personalwriter" template="personal/personalwriter.html">
+        <put-attribute name="header" value="personal/header.html"/>
+        <put-attribute name="nav" value="personal/nav.html"/>
+    </definition>
+
     <definition name="searchresume" template="searchresume.html">
         <put-attribute name="header" value="user/header.html"/>
     </definition>

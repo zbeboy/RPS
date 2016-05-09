@@ -2,6 +2,9 @@ package com.RPS.service;
 
 import com.RPS.dao.UsersDtoMapper;
 import com.RPS.model.UsersDto;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -46,5 +49,23 @@ public class UsersServiceImpl implements UsersService {
         usersDto.setUsername(username);
         usersDto.setPassword(password);
         return usersDto;
+    }
+
+    @Override
+    public boolean isCurrentUserInRole(String authority) {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        if (authentication != null) {
+            if (authentication.getPrincipal() instanceof UserDetails) {
+                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+                return springSecurityUser.getAuthorities().contains(new SimpleGrantedAuthority(authority));
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void update(UsersDto usersDto) {
+        usersDtoMapper.updateByPrimaryKey(usersDto);
     }
 }

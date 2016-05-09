@@ -16,6 +16,8 @@ public class RegistVo {
     @NotNull
     @Pattern(regexp = "^\\w{6,}$")
     private String cpassword;
+    @NotNull
+    private String userType;
 
     public String getEmail() {
         return email;
@@ -41,12 +43,22 @@ public class RegistVo {
         this.cpassword = cpassword;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+
     @Override
     public String toString() {
         return "RegistVo{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", cpassword='" + cpassword + '\'' +
+                ", userType='" + userType + '\'' +
                 '}';
     }
 }

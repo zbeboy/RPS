@@ -37,4 +37,9 @@ public class PersonalServiceImpl implements PersonalService {
             return null;
         }
     }
+
+    @Override
+    public void update(PersonalDto personalDto) {
+        personalDtoMapper.updateByPrimaryKey(personalDto);
+    }
 }

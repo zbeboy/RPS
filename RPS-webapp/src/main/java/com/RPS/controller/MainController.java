@@ -4,6 +4,7 @@ import com.RPS.commons.WorkBook;
 import com.RPS.model.*;
 import com.RPS.service.*;
 import com.RPS.util.MD5Utils;
+import com.RPS.vo.PersonalPasswordVo;
 import com.RPS.vo.RegistVo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang3.StringUtils;
@@ -59,55 +60,25 @@ public class MainController {
      * Home page.
      */
     @RequestMapping("/index")
-    public String index(ModelMap modelMap,HttpServletRequest request) {
-        List<ResumeDto> newResumes = resumeService.findAllAndPage(0,3,null);
-        List<ResumeDto> allResumes = resumeService.findAllAndPage(0,10,null);
-        modelMap.addAttribute("newResumes",newResumes);
-        modelMap.addAttribute("allResumes",allResumes);
+    public String index(ModelMap modelMap, HttpServletRequest request) {
+        List<ResumeDto> newResumes = resumeService.findAllAndPage(0, 3, null);
+        List<ResumeDto> allResumes = resumeService.findAllAndPage(0, 10, null);
+        modelMap.addAttribute("newResumes", newResumes);
+        modelMap.addAttribute("allResumes", allResumes);
         UsersDto usersDto = usersService.getUserBySession();
-        if(StringUtils.isNotBlank(usersDto.getUsername())){
+        if (StringUtils.isNotBlank(usersDto.getUsername())) {
             UsersDto usersDto1 = usersService.findByUsername(usersDto.getUsername());
-            if(usersDto1.getUserType().equals(WorkBook.USERS_PER)){
+            if (usersDto1.getUserType().equals(WorkBook.USERS_PER)) {
                 PersonalDto personalDto = personalService.findByUsername(usersDto.getUsername());
                 HttpSession httpSession = request.getSession();
-                httpSession.setAttribute("users",personalDto);
-            } else if(usersDto1.getUserType().equals(WorkBook.USERS_ENTER)){
+                httpSession.setAttribute("users", personalDto);
+            } else if (usersDto1.getUserType().equals(WorkBook.USERS_ENTER)) {
                 EnterpriseDto enterpriseDto = enterpriseService.findByUsername(usersDto.getUsername());
                 HttpSession httpSession = request.getSession();
-                httpSession.setAttribute("users",enterpriseDto);
+                httpSession.setAttribute("users", enterpriseDto);
             }
         }
         return "index";
-    }
-
-    /**
-     * search resume
-     * @param title
-     * @param modelMap
-     * @return
-     */
-    @RequestMapping("/searchResume")
-    public String searchResume(@RequestParam("title") String title,ModelMap modelMap){
-        List<ResumeDto> resumes = resumeService.findAllAndPage(0,30,title);
-        for(ResumeDto r:resumes){
-            PersonalDto personalDto = personalService.findByUsername(r.getUsername());
-            r.setUsername(personalDto.getRealName());
-        }
-        modelMap.addAttribute("resumes",resumes);
-        return "searchresume";
-    }
-
-    /**
-     * single resume
-     * @param id
-     * @param modelMap
-     * @return
-     */
-    @RequestMapping("singleResume")
-    public String singleResume(@RequestParam("id") int id,ModelMap modelMap){
-        ResumeDto resumeDto = resumeService.findById(id);
-        modelMap.addAttribute("resume",resumeDto);
-        return "resume";
     }
 
     /**
@@ -150,40 +121,98 @@ public class MainController {
         return map;
     }
 
+    @RequestMapping("/validatePassword")
+    @ResponseBody
+    public Map<String, Object> validatePassword(@RequestParam("oldPassword") String oldPassword) {
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtils.isNotBlank(oldPassword)) {
+            String oldPwd = MD5Utils.md5(StringUtils.trim(oldPassword));
+            System.out.println(usersService.getUserBySession().getPassword());
+            if (oldPwd.equals(usersService.getUserBySession().getPassword())) {
+                map.put("ok", "");
+            } else {
+                map.put("error", "密码错误!");
+            }
+        } else {
+            map.put("error", "参数异常!");
+        }
+        return map;
+    }
+
     /**
      * user register
      */
     @RequestMapping("/userRegister")
-    public String userRegister(@Valid RegistVo registVo, BindingResult bindingResult, ModelMap modelMap){
-        if(!bindingResult.hasErrors()&&StringUtils.equals(registVo.getPassword(),registVo.getCpassword())){
+    public String userRegister(@Valid RegistVo registVo, BindingResult bindingResult, ModelMap modelMap) {
+        if (!bindingResult.hasErrors() && StringUtils.equals(registVo.getPassword(), registVo.getCpassword())) {
             String username = StringUtils.trim(registVo.getEmail());
             UsersDto usersDto = new UsersDto();
             usersDto.setUsername(username);
             usersDto.setPassword(MD5Utils.md5(StringUtils.trim(registVo.getPassword())));
             usersDto.setEnabled(true);
-            usersDto.setUserType(WorkBook.USERS_PER);
+            if (registVo.getUserType().equals("USERS_PER")) {
+                usersDto.setUserType(WorkBook.USERS_PER);
+            } else if (registVo.getUserType().equals("USERS_ENTER")) {
+                usersDto.setUserType(WorkBook.USERS_ENTER);
+            }
+
             usersService.save(usersDto);
 
             AuthoritiesDto authoritiesDto = new AuthoritiesDto();
             authoritiesDto.setUsername(username);
-            authoritiesDto.setAuthority(WorkBook.RPS_PER);
+            if (registVo.getUserType().equals("USERS_PER")) {
+                authoritiesDto.setAuthority(WorkBook.RPS_PER);
+            } else if (registVo.getUserType().equals("USERS_ENTER")) {
+                authoritiesDto.setAuthority(WorkBook.RPS_ENTER);
+            }
             authoritiesService.save(authoritiesDto);
 
-            PersonalDto personalDto = new PersonalDto();
-            personalDto.setUsername(username);
-            personalService.save(personalDto);
-            modelMap.addAttribute("msg","注册成功!");
+            if (registVo.getUserType().equals("USERS_PER")) {
+                PersonalDto personalDto = new PersonalDto();
+                personalDto.setUsername(username);
+                personalDto.setRealName("无名");
+                personalDto.setSex(0);
+                personalService.save(personalDto);
+            } else if (registVo.getUserType().equals("USERS_ENTER")) {
+                EnterpriseDto enterpriseDto = new EnterpriseDto();
+                enterpriseDto.setUsername(username);
+                enterpriseDto.setRealName("无名");
+                enterpriseService.save(enterpriseDto);
+            }
+            modelMap.addAttribute("msg", "注册成功!");
         } else {
-            modelMap.addAttribute("msg","验证信息有误!");
+            modelMap.addAttribute("msg", "验证信息有误!");
         }
-        return "regist";
+        return "login";
+    }
+
+    /**
+     * 主界面
+     *
+     * @return
+     */
+    @RequestMapping("/mainLayOut")
+    public String mainLayOut() {
+        if (usersService.isCurrentUserInRole(WorkBook.RPS_ADMIN)) {
+            return "redirect:/admin/index";
+        } else if (usersService.isCurrentUserInRole(WorkBook.RPS_ENTER)) {
+            return "redirect:/enterprise/index";
+        } else if (usersService.isCurrentUserInRole(WorkBook.RPS_PER)) {
+            return "redirect:/personal/index";
+        } else {
+            return "redirect:/index";
+        }
     }
 
     /**
      * Administration zone index.
      */
     @RequestMapping("/admin/index")
-    public String adminIndex() {
+    public String adminIndex(HttpServletRequest request) {
+        UsersDto usersDto = usersService.getUserBySession();
+        PersonalDto personalDto = personalService.findByUsername(usersDto.getUsername());
+        HttpSession session = request.getSession();
+        session.setAttribute("users", personalDto);
         return "admin/index";
     }
 
@@ -191,7 +220,11 @@ public class MainController {
      * Enterprise zone index.
      */
     @RequestMapping("/enterprise/index")
-    public String enterpriseIndex() {
+    public String enterpriseIndex(HttpServletRequest request) {
+        UsersDto usersDto = usersService.getUserBySession();
+        EnterpriseDto enterpriseDto = enterpriseService.findByUsername(usersDto.getUsername());
+        HttpSession session = request.getSession();
+        session.setAttribute("users", enterpriseDto);
         return "enterprise/index";
     }
 
@@ -199,8 +232,12 @@ public class MainController {
      * Personal zone index.
      */
     @RequestMapping("/personal/index")
-    public String personalIndex() {
-        return "enterprise/index";
+    public String personalIndex(HttpServletRequest request) {
+        UsersDto usersDto = usersService.getUserBySession();
+        PersonalDto personalDto = personalService.findByUsername(usersDto.getUsername());
+        HttpSession session = request.getSession();
+        session.setAttribute("users", personalDto);
+        return "personal/index";
     }
 
     /**

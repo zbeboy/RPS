@@ -3,6 +3,7 @@ package com.RPS.service;
 import com.RPS.dao.ResumeDtoMapper;
 import com.RPS.model.ResumeDto;
 import com.RPS.model.ResumeDtoExample;
+import com.RPS.model.ResumeDtoWithBLOBs;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -45,5 +46,10 @@ public class ResumeServiceImpl implements ResumeService{
     public ResumeDto findById(int id) {
         ResumeDto resumeDto = resumeDtoMapper.selectByPrimaryKey(id);
         return resumeDto;
+    }
+
+    @Override
+    public void save(ResumeDtoWithBLOBs resumeDtoWithBLOBs) {
+        resumeDtoMapper.insert(resumeDtoWithBLOBs);
     }
 }

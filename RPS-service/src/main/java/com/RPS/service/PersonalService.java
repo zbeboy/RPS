@@ -18,4 +18,10 @@ public interface PersonalService {
      * @param username
      */
     PersonalDto findByUsername(String username);
+
+    /**
+     * update
+     * @param personalDto
+     */
+    void update(PersonalDto personalDto);
 }

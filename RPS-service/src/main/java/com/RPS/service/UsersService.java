@@ -23,4 +23,18 @@ public interface UsersService {
      * @return
      */
     UsersDto getUserBySession();
+
+    /**
+     * 检查当前用户是否有此权限
+     *
+     * @param authority
+     * @return
+     */
+    boolean isCurrentUserInRole(String authority);
+
+    /**
+     * update
+     * @param usersDto
+     */
+    void update(UsersDto usersDto);
 }

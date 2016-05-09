@@ -1,6 +1,7 @@
 package com.RPS.service;
 
 import com.RPS.model.ResumeDto;
+import com.RPS.model.ResumeDtoWithBLOBs;
 
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface ResumeService {
      * @return
      */
     ResumeDto findById(int id);
+
+    /**
+     * 保存
+     * @param resumeDtoWithBLOBs
+     */
+    void save(ResumeDtoWithBLOBs resumeDtoWithBLOBs);
 }

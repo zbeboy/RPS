@@ -38,7 +38,11 @@ create table authorities(
 create table resume(
   id int primary key auto_increment,
   title varchar(45),
-  education varchar(45),
+  education varchar(45) comment '学历',
+  real_name varchar(45),
+  sex int,
+  age int,
+  tel_no varchar(11),
   education_situation text comment '教育情况',
   practical_experience text comment '实践经历',
   self_evaluation text comment '自我评价',
@@ -46,7 +50,7 @@ create table resume(
   is_show boolean comment '是否展示',
   is_pass int default 0 comment '0未审核,1通过,2未通过',
   resume_img varchar(500) comment '简历封面',
-  create_time datetime default current_timestamp,
+  create_time date,
   foreign key(username) references users(username)
 );
 
@@ -54,7 +58,7 @@ create table message(
   id int primary key auto_increment,
   message_title varchar(200),
   message_content varchar(200),
-  create_time datetime default current_timestamp,
+  create_time date,
   username varchar(200),
   foreign key(username) references users(username)
 );
