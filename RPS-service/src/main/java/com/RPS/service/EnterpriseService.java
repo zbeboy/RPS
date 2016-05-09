@@ -19,4 +19,10 @@ public interface EnterpriseService {
      * @param enterpriseDto
      */
     void save(EnterpriseDto enterpriseDto);
+
+    /**
+     * 更新企业信息
+     * @param enterpriseDto
+     */
+    void update(EnterpriseDto enterpriseDto);
 }

@@ -52,4 +52,14 @@ public class ResumeServiceImpl implements ResumeService{
     public void save(ResumeDtoWithBLOBs resumeDtoWithBLOBs) {
         resumeDtoMapper.insert(resumeDtoWithBLOBs);
     }
+
+    @Override
+    public List<ResumeDto> findAllByUsernameAndPage(String username, int pageNum, int pageSize) {
+        ResumeDtoExample resumeDtoExample = new ResumeDtoExample();
+        ResumeDtoExample.Criteria cr = resumeDtoExample.createCriteria();
+        cr.andUsernameEqualTo(username);
+        PageHelper.startPage(pageNum,pageSize);
+        List<ResumeDto> resumeDtos = resumeDtoMapper.selectByExample(resumeDtoExample);
+        return resumeDtos;
+    }
 }

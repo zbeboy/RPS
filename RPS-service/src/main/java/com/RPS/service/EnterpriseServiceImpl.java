@@ -37,4 +37,9 @@ public class EnterpriseServiceImpl implements EnterpriseService{
     public void save(EnterpriseDto enterpriseDto) {
         enterpriseDtoMapper.insert(enterpriseDto);
     }
+
+    @Override
+    public void update(EnterpriseDto enterpriseDto) {
+        enterpriseDtoMapper.updateByPrimaryKey(enterpriseDto);
+    }
 }

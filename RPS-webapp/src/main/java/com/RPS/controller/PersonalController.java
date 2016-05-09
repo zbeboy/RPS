@@ -1,7 +1,9 @@
 package com.RPS.controller;
 
 import com.RPS.data.AjaxData;
+import com.RPS.data.PaginationData;
 import com.RPS.model.PersonalDto;
+import com.RPS.model.ResumeDto;
 import com.RPS.model.ResumeDtoWithBLOBs;
 import com.RPS.model.UsersDto;
 import com.RPS.service.PersonalService;
@@ -9,12 +11,14 @@ import com.RPS.service.ResumeService;
 import com.RPS.service.UploadService;
 import com.RPS.service.UsersService;
 import com.RPS.util.MD5Utils;
+import com.RPS.util.PaginationUtils;
 import com.RPS.vo.Personal;
 import com.RPS.vo.PersonalPasswordVo;
 import com.RPS.vo.PersonalWriterVo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -24,8 +28,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -147,5 +154,28 @@ public class PersonalController {
         resumeDtoWithBLOBs.setCreateTime(new Date());
         resumeService.save(resumeDtoWithBLOBs);
         return "redirect:/personal/personalWriter";
+    }
+
+    /**
+     * 我的简历
+     * @return
+     */
+    @RequestMapping("/personal/personalMyResume")
+    public String personalMyResume(){
+        return "personal/personalmyresume";
+    }
+
+    /**
+     * 我的简历数据
+     * @param page
+     * @return
+     */
+    @RequestMapping("/personal/personalMyResumeData")
+    @ResponseBody
+    public AjaxData personalMyResumeData(@RequestParam("page") int page){
+        List<ResumeDto> resumeDtos = resumeService.findAllByUsernameAndPage(usersService.getUserBySession().getUsername(),page,15);
+        PaginationUtils<ResumeDto> resumeDtoPaginationUtils = new PaginationUtils<>();
+        Map<String,Object> map = resumeDtoPaginationUtils.paginationData(resumeDtos,page);
+        return new AjaxData().success().mapData(map);
     }
 }

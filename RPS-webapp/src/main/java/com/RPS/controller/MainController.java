@@ -121,13 +121,17 @@ public class MainController {
         return map;
     }
 
+    /**
+     * 检验原来的密码
+     * @param oldPassword
+     * @return
+     */
     @RequestMapping("/validatePassword")
     @ResponseBody
     public Map<String, Object> validatePassword(@RequestParam("oldPassword") String oldPassword) {
         Map<String, Object> map = new HashMap<>();
         if (StringUtils.isNotBlank(oldPassword)) {
             String oldPwd = MD5Utils.md5(StringUtils.trim(oldPassword));
-            System.out.println(usersService.getUserBySession().getPassword());
             if (oldPwd.equals(usersService.getUserBySession().getPassword())) {
                 map.put("ok", "");
             } else {

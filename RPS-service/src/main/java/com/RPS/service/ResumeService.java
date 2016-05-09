@@ -30,4 +30,13 @@ public interface ResumeService {
      * @param resumeDtoWithBLOBs
      */
     void save(ResumeDtoWithBLOBs resumeDtoWithBLOBs);
+
+    /**
+     * 通过 username查询简历并分页
+     * @param username
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    List<ResumeDto> findAllByUsernameAndPage(String username,int pageNum,int pageSize);
 }

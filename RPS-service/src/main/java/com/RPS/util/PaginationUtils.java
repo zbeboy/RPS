@@ -24,13 +24,7 @@ public class PaginationUtils<T> {
         int totalPages = pageInfo.getPages();
         map.put("dataInfo", list);
         map.put("totalPages", totalPages);
-        if (totalPages < 7) {
-            map.put("visiablePages", totalPages);
-        } else {
-            map.put("visiablePages", 7);
-        }
-        map.put("startPage", pageNum);
-
+        map.put("buttons", 3);
         return map;
     }
 }

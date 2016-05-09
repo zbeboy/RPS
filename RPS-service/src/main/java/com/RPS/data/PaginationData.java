@@ -8,15 +8,17 @@ public class PaginationData {
     private int totalDatas;//数据总数
     private int pageNum;//当前页
     private int pageSize;//每页大小
+    private int buttons;//显示多少个按钮
 
     public PaginationData() {
     }
 
-    public PaginationData(int totalPages, int totalDatas, int pageNum, int pageSize) {
+    public PaginationData(int totalPages, int totalDatas, int pageNum, int pageSize, int buttons) {
         this.totalPages = totalPages;
         this.totalDatas = totalDatas;
         this.pageNum = pageNum;
         this.pageSize = pageSize;
+        this.buttons = buttons;
     }
 
     public int getTotalPages() {
@@ -51,6 +53,14 @@ public class PaginationData {
         this.pageSize = pageSize;
     }
 
+    public int getButtons() {
+        return buttons;
+    }
+
+    public void setButtons(int buttons) {
+        this.buttons = buttons;
+    }
+
     @Override
     public String toString() {
         return "PaginationData{" +
@@ -58,6 +68,7 @@ public class PaginationData {
                 ", totalDatas=" + totalDatas +
                 ", pageNum=" + pageNum +
                 ", pageSize=" + pageSize +
+                ", buttons=" + buttons +
                 '}';
     }
 }

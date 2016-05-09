@@ -64,6 +64,16 @@
         <put-attribute name="nav" value="personal/nav.html"/>
     </definition>
 
+    <definition name="personal/personalmyresume" template="personal/personalmyresume.html">
+        <put-attribute name="header" value="personal/header.html"/>
+        <put-attribute name="nav" value="personal/nav.html"/>
+    </definition>
+
+    <definition name="enterprise/firmwriter" template="enterprise/firmwriter.html">
+        <put-attribute name="header" value="enterprise/header.html"/>
+        <put-attribute name="nav" value="enterprise/nav.html"/>
+    </definition>
+
     <definition name="searchresume" template="searchresume.html">
         <put-attribute name="header" value="user/header.html"/>
     </definition>
