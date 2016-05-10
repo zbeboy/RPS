@@ -44,9 +44,9 @@
         <p>
         <div class="col-lg-6 col-lg-offset-3">
             <div class="input-group input-group-lg">
-                <input type="text" class="form-control" />
+                <input type="text" id="search" class="form-control" />
 					<span class="input-group-btn">
-						<button class="btn btn-default" type="button">Go!</button>
+						<button class="btn btn-default" type="button" onclick="search();">搜索</button>
 					</span>
             </div><!-- /input-group -->
         </div><!-- /.col-lg-6 -->
@@ -56,27 +56,16 @@
     <div class="starter-template">
         <div class="col-md-8">
             <h2>最新简历</h2>
-            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" th:unless="${#lists.isEmpty(newResumes)}">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
-                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+
                 </ol>
 
                 <!-- Wrapper for slides -->
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <img src="images/9.png" alt="..." th:src="@{/images/9.png}" />
-                    </div>
-                    <div class="item">
-                        <img src="images/9.png" alt="..." th:src="@{/images/9.png}" />
-                    </div>
-                    <div class="item">
-                        <img src="images/9.png" alt="..." th:src="@{/images/9.png}" />
-                    </div>
-                    <div class="item">
-                        <img src="images/9.png" alt="..." th:src="@{/images/9.png}" />
+                <div class="carousel-inner"  >
+                    <div class="item" th:each="nr:${newResumes}" >
+                        <img src="images/9.png" th:src="${nr.resumeImg}"  />
                     </div>
                 </div>
 
@@ -91,15 +80,11 @@
         </div>
         <div class="col-md-4">
             <h2>全部简历</h2>
-            <ul class="list-group">
-                <li class="list-group-item">Cras justo odio</li>
-                <li class="list-group-item">Dapibus ac facilisis in</li>
-                <li class="list-group-item">Morbi leo risus</li>
-                <li class="list-group-item">Porta ac consectetur ac</li>
-                <li class="list-group-item">Vestibulum at eros</li>
+            <ul class="list-group" th:unless="${#lists.isEmpty(allResumes)}" >
+                <li class="list-group-item" th:each="ar:${allResumes}"><a href="#" th:text="${ar.title}" th:href="@{/resume}+'?id='+${ar.id}" ></a></li>
             </ul>
             <p class="text-right">
-                <a href="#">更多</a>
+                <a href="javascript:;" onclick="toMore();" >更多</a>
             </p>
         </div>
     </div>
@@ -113,6 +98,7 @@
 <script src="js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
 <script src="js/csrf.js" th:src="@{/js/csrf.js}"></script>
+<script src="js/rps/index.js" th:src="@{/js/rps/index.js}"></script>
 </body>
 
 <!-- Mirrored from v3.bootcss.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2013], Sun, 26 Jan 2014 11:51:16 GMT -->

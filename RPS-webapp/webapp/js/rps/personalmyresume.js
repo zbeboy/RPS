@@ -41,17 +41,69 @@ function showDatas(data) {
             .append($('<td>').text(isShow))
             .append($('<td>').text(isPass))
             .append($('<td>').text(time1))
-            .append($('<td>').append($('<a href="javascript:;" onclick="toShow(\"'+data.single.dataInfo[i].id+'\",\"'+data.single.dataInfo[i].isShow+'\");" >').text(showWord))
+            .append($('<td>').append($('<a href="javascript:;" onclick="toShow(\''+data.single.dataInfo[i].id+'\',\''+showWord+'\');" >').text(showWord))
                 .append(" ")
-                .append($('<a href="javascript:;" onclick="toEdit(\"'+data.single.dataInfo[i].id+'\");" >').text('编辑'))
+                .append($('<a href="javascript:;" onclick="toEdit(\''+data.single.dataInfo[i].id+'\');" >').text('编辑'))
                 .append(" ")
-                .append($('<a href="javascript:;" onclick="toLook(\"'+data.single.dataInfo[i].id+'\");" >').text('查看'))
+                .append($('<a href="javascript:;" onclick="toLook(\''+data.single.dataInfo[i].id+'\');" >').text('查看'))
                 .append(" ")
-                .append($('<a href="javascript:;" onclick="toDelete(\"'+data.single.dataInfo[i].id+'\");" >').text('删除'))
+                .append($('<a href="javascript:;" onclick="toDelete(\''+data.single.dataInfo[i].id+'\');" >').text('删除'))
             )
         );
         j++;
     }
+}
+
+/**
+ * 更改展示状态
+ * @param id
+ * @param isShow
+ */
+function toShow(id,isShow){
+    var show = null;
+    if(isShow === '不显示'){
+        show = false;
+    } else {
+        show = true;
+    }
+    $.post('/personal/updateMyResumeToShow',{
+        'id':id,
+        'isShow':show
+    },function(data){
+        if(data.state){
+            window.location.reload(true);
+        }
+    },'json');
+}
+
+/**
+ * 编辑
+ * @param id
+ */
+function toEdit(id){
+    window.location.href = '/personal/updateMyResumeToEdit?id='+id;
+}
+
+/**
+ * 查看
+ * @param id
+ */
+function toLook(id){
+    window.location.href = '/personal/updateMyResumeToLook?id='+id;
+}
+
+/**
+ * 删除
+ * @param id
+ */
+function toDelete(id){
+    $.post('/personal/deleteMyResume',{
+        'id':id
+    },function(data){
+        if(data.state){
+            window.location.reload(true);
+        }
+    },'json');
 }
 
 Date.prototype.Format = function(fmt)

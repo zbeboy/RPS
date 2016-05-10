@@ -12,4 +12,6 @@ public class WorkBook {
     //USERS TYPE
     public static final String USERS_PER = "普通用户";
     public static final String USERS_ENTER = "企业";
+
+    public static final String MAIL_FROM = "863052317@qq.com";
 }

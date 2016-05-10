@@ -23,7 +23,7 @@ public interface ResumeService {
      * @param id
      * @return
      */
-    ResumeDto findById(int id);
+    ResumeDtoWithBLOBs findById(int id);
 
     /**
      * 保存
@@ -39,4 +39,24 @@ public interface ResumeService {
      * @return
      */
     List<ResumeDto> findAllByUsernameAndPage(String username,int pageNum,int pageSize);
+
+    /**
+     * 更新
+     * @param resumeDtoWithBLOBs
+     */
+    void update(ResumeDtoWithBLOBs resumeDtoWithBLOBs);
+
+    /**
+     * 删除
+     * @param id
+     */
+    void deleteById(int id);
+
+    /**
+     * 查询所有未通过或未审核的简历
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    List<ResumeDto> findAllByIsPassAndPage(int pageNum,int pageSize);
 }

@@ -2,6 +2,9 @@ create table users(
   username varchar(200) not null primary key,
   password varchar(500) not null,
   enabled boolean not null,
+  is_active boolean comment '是否已激活',
+  active_key varchar(45) comment '激活key' ,
+  reset_key varchar(45) comment '重置key',
   user_type varchar(45) comment '普通用户,企业'
 );
 
@@ -50,6 +53,7 @@ create table resume(
   is_show boolean comment '是否展示',
   is_pass int default 0 comment '0未审核,1通过,2未通过',
   resume_img varchar(500) comment '简历封面',
+  job_interview varchar(500) comment '面试职位',
   create_time date,
   foreign key(username) references users(username)
 );
@@ -60,5 +64,12 @@ create table message(
   message_content varchar(200),
   create_time date,
   username varchar(200),
-  foreign key(username) references users(username)
+  accept_user varchar(200),
+  is_see boolean,
+  foreign key(username) references users(username),
+  foreign key(accept_user) references users(username)
 );
+
+insert into users(username, password, enabled, user_type,is_active) values('10000@rps.com','e10adc3949ba59abbe56e057f20f883e',true,'1',true);
+insert into authorities(username, authority) values('10000@rps.com','ROLE_ADMIN');
+insert into personal(id,head_img_url,real_name,sex,age,tel_no,username) values(1,'','z','1','18','13987614709','10000@rps.com');

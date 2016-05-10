@@ -24,6 +24,7 @@ public class PaginationUtils<T> {
         int totalPages = pageInfo.getPages();
         map.put("dataInfo", list);
         map.put("totalPages", totalPages);
+        map.put("totalData",pageInfo.getSize());
         map.put("buttons", 3);
         return map;
     }

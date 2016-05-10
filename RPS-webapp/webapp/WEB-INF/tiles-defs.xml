@@ -31,10 +31,12 @@
     <definition name="error" template="error.html">
     </definition>
     <definition name="login" template="login.html">
+        <put-attribute name="header" value="user/header.html"/>
     </definition>
     <definition name="about" template="about.html">
     </definition>
     <definition name="regist" template="regist.html">
+        <put-attribute name="header" value="user/header.html"/>
     </definition>
 
     <definition name="admin/index" extends="index">
@@ -64,7 +66,22 @@
         <put-attribute name="nav" value="personal/nav.html"/>
     </definition>
 
+    <definition name="personal/personalmyresumeedit" template="personal/personalmyresumeedit.html">
+        <put-attribute name="header" value="personal/header.html"/>
+        <put-attribute name="nav" value="personal/nav.html"/>
+    </definition>
+
+    <definition name="personal/resumelook" template="personal/resumelook.html">
+        <put-attribute name="header" value="personal/header.html"/>
+        <put-attribute name="nav" value="personal/nav.html"/>
+    </definition>
+
     <definition name="personal/personalmyresume" template="personal/personalmyresume.html">
+        <put-attribute name="header" value="personal/header.html"/>
+        <put-attribute name="nav" value="personal/nav.html"/>
+    </definition>
+
+    <definition name="personal/personalmsg" template="personal/personalmsg.html">
         <put-attribute name="header" value="personal/header.html"/>
         <put-attribute name="nav" value="personal/nav.html"/>
     </definition>
@@ -74,10 +91,31 @@
         <put-attribute name="nav" value="enterprise/nav.html"/>
     </definition>
 
-    <definition name="searchresume" template="searchresume.html">
+    <definition name="enterprise/firmpassword" template="enterprise/firmpassword.html">
+        <put-attribute name="header" value="enterprise/header.html"/>
+        <put-attribute name="nav" value="enterprise/nav.html"/>
+    </definition>
+
+    <definition name="admin/adminexamine" template="admin/adminexamine.html">
+        <put-attribute name="header" value="admin/header.html"/>
+        <put-attribute name="nav" value="admin/nav.html"/>
+    </definition>
+
+    <definition name="admin/adminlook" template="admin/adminlook.html">
+        <put-attribute name="header" value="admin/header.html"/>
+        <put-attribute name="nav" value="admin/nav.html"/>
+    </definition>
+
+    <definition name="user/resume" template="user/resume.html">
         <put-attribute name="header" value="user/header.html"/>
     </definition>
-    <definition name="resume" template="resume.html">
+
+    <definition name="user/searchresume" template="user/searchresume.html">
         <put-attribute name="header" value="user/header.html"/>
     </definition>
+
+    <definition name="user/yanzhengsuccess" template="user/yanzhengsuccess.html">
+        <put-attribute name="header" value="user/header.html"/>
+    </definition>
+
 </tiles-definitions>

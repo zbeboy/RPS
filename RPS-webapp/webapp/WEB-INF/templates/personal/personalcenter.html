@@ -83,7 +83,7 @@
                                 </span>
                             </h3>
                             <form class="form-horizontal" role="form" method="post" th:action="@{/personal/updatePersonal}" data-validator-option="{theme:'yellow_right_effect',stopOnError:true}">
-                                <input type="hidden" id="headImgUrl" name="headImgUrl" />
+                                <input type="hidden" id="headImgUrl" th:value="${#httpSession.getAttribute('users').headImgUrl}" name="headImgUrl" />
                                 <div class="form-group">
                                     <label for="username" class="col-sm-2 control-label">Email</label>
                                     <div class="col-sm-10">
@@ -155,6 +155,7 @@
 <script type="text/javascript" src="path/to/validator/jquery.validator.js" th:src="@{/js/jquery.validator.js}" ></script>
 <script type="text/javascript" src="path/to/validator/local/zh_CN.js" th:src="@{/js/local/zh-CN.js}" ></script>
 <script src="js/rps/personalcenter.js" th:src="@{/js/rps/personalcenter.js}"></script>
+<script src="js/rps/message.js" th:src="@{/js/rps/message.js}"></script>
 </body>
 
 <!-- Mirrored from v3.bootcss.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2013], Sun, 26 Jan 2014 11:51:16 GMT -->

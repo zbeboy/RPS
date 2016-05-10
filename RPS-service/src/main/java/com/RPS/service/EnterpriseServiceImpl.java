@@ -40,6 +40,6 @@ public class EnterpriseServiceImpl implements EnterpriseService{
 
     @Override
     public void update(EnterpriseDto enterpriseDto) {
-        enterpriseDtoMapper.updateByPrimaryKey(enterpriseDto);
+        enterpriseDtoMapper.updateByPrimaryKeyWithBLOBs(enterpriseDto);
     }
 }

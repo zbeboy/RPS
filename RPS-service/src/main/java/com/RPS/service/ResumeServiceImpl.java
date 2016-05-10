@@ -18,34 +18,34 @@ import java.util.List;
  */
 @Service("resumeService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-public class ResumeServiceImpl implements ResumeService{
+public class ResumeServiceImpl implements ResumeService {
 
     @Resource
     private ResumeDtoMapper resumeDtoMapper;
 
 
     @Override
-    public List<ResumeDto> findAllAndPage(int pageNum, int pageSize,String title) {
+    public List<ResumeDto> findAllAndPage(int pageNum, int pageSize, String title) {
         List<ResumeDto> resumeDtos = null;
         ResumeDtoExample resumeDtoExample = new ResumeDtoExample();
         ResumeDtoExample.Criteria cr = resumeDtoExample.createCriteria();
         cr.andIsPassEqualTo(1);
         cr.andIsShowEqualTo(true);
-        if(StringUtils.isNotBlank(title)){
-            cr.andTitleLike(title);
-            PageHelper.startPage(pageNum,pageSize);
+        if (StringUtils.isNotBlank(title)) {
+            cr.andTitleLike("%"+title+"%");
+            PageHelper.startPage(pageNum, pageSize);
             resumeDtos = resumeDtoMapper.selectByExample(resumeDtoExample);
         } else {
-            PageHelper.startPage(pageNum,pageSize);
+            PageHelper.startPage(pageNum, pageSize);
             resumeDtos = resumeDtoMapper.selectByExample(resumeDtoExample);
         }
         return resumeDtos;
     }
 
     @Override
-    public ResumeDto findById(int id) {
-        ResumeDto resumeDto = resumeDtoMapper.selectByPrimaryKey(id);
-        return resumeDto;
+    public ResumeDtoWithBLOBs findById(int id) {
+        ResumeDtoWithBLOBs resumeDtoWithBLOBs = resumeDtoMapper.selectByPrimaryKey(id);
+        return resumeDtoWithBLOBs;
     }
 
     @Override
@@ -58,7 +58,27 @@ public class ResumeServiceImpl implements ResumeService{
         ResumeDtoExample resumeDtoExample = new ResumeDtoExample();
         ResumeDtoExample.Criteria cr = resumeDtoExample.createCriteria();
         cr.andUsernameEqualTo(username);
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
+        List<ResumeDto> resumeDtos = resumeDtoMapper.selectByExample(resumeDtoExample);
+        return resumeDtos;
+    }
+
+    @Override
+    public void update(ResumeDtoWithBLOBs resumeDtoWithBLOBs) {
+        resumeDtoMapper.updateByPrimaryKeyWithBLOBs(resumeDtoWithBLOBs);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        resumeDtoMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public List<ResumeDto> findAllByIsPassAndPage(int pageNum, int pageSize) {
+        ResumeDtoExample resumeDtoExample = new ResumeDtoExample();
+        ResumeDtoExample.Criteria cr = resumeDtoExample.createCriteria();
+        cr.andIsPassNotEqualTo(1);
+        PageHelper.startPage(pageNum, pageSize);
         List<ResumeDto> resumeDtos = resumeDtoMapper.selectByExample(resumeDtoExample);
         return resumeDtos;
     }

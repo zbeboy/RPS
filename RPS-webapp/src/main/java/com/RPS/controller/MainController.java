@@ -1,9 +1,12 @@
 package com.RPS.controller;
 
 import com.RPS.commons.WorkBook;
+import com.RPS.data.AjaxData;
 import com.RPS.model.*;
 import com.RPS.service.*;
 import com.RPS.util.MD5Utils;
+import com.RPS.util.PaginationUtils;
+import com.RPS.util.RandomUtil;
 import com.RPS.vo.PersonalPasswordVo;
 import com.RPS.vo.RegistVo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
@@ -21,6 +24,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +50,9 @@ public class MainController {
     @Resource
     private ResumeService resumeService;
 
+    @Resource
+    private MailService mailService;
+
     /**
      * root
      *
@@ -60,25 +67,49 @@ public class MainController {
      * Home page.
      */
     @RequestMapping("/index")
-    public String index(ModelMap modelMap, HttpServletRequest request) {
+    public String index(ModelMap modelMap) {
         List<ResumeDto> newResumes = resumeService.findAllAndPage(0, 3, null);
         List<ResumeDto> allResumes = resumeService.findAllAndPage(0, 10, null);
         modelMap.addAttribute("newResumes", newResumes);
         modelMap.addAttribute("allResumes", allResumes);
-        UsersDto usersDto = usersService.getUserBySession();
-        if (StringUtils.isNotBlank(usersDto.getUsername())) {
-            UsersDto usersDto1 = usersService.findByUsername(usersDto.getUsername());
-            if (usersDto1.getUserType().equals(WorkBook.USERS_PER)) {
-                PersonalDto personalDto = personalService.findByUsername(usersDto.getUsername());
-                HttpSession httpSession = request.getSession();
-                httpSession.setAttribute("users", personalDto);
-            } else if (usersDto1.getUserType().equals(WorkBook.USERS_ENTER)) {
-                EnterpriseDto enterpriseDto = enterpriseService.findByUsername(usersDto.getUsername());
-                HttpSession httpSession = request.getSession();
-                httpSession.setAttribute("users", enterpriseDto);
-            }
-        }
         return "index";
+    }
+
+    /**
+     * resume
+     * @param id
+     * @return
+     */
+    @RequestMapping("/resume")
+    public String resume(@RequestParam("id") int id ,ModelMap modelMap){
+        ResumeDtoWithBLOBs resumeDtoWithBLOBs = resumeService.findById(id);
+        modelMap.addAttribute("resumeDtoWithBLOBs",resumeDtoWithBLOBs);
+        return "user/resume";
+    }
+
+    /**
+     * 搜索简历
+     * @return
+     */
+    @RequestMapping("/searchResume")
+    public String personalMyResume( String title,ModelMap modelMap){
+        modelMap.addAttribute("title",title);
+        return "user/searchresume";
+    }
+
+    /**
+     * 搜索简历数据
+     * @param page
+     * @param title
+     * @return
+     */
+    @RequestMapping("/searchResumeData")
+    @ResponseBody
+    public AjaxData personalMyResume(@RequestParam("page") int page, String title){
+        List<ResumeDto> allResumes = resumeService.findAllAndPage(page, 20, title);
+        PaginationUtils<ResumeDto> resumeDtoPaginationUtils = new PaginationUtils<>();
+        Map<String,Object> map = resumeDtoPaginationUtils.paginationData(allResumes,page);
+        return new AjaxData().success().mapData(map);
     }
 
     /**
@@ -147,7 +178,7 @@ public class MainController {
      * user register
      */
     @RequestMapping("/userRegister")
-    public String userRegister(@Valid RegistVo registVo, BindingResult bindingResult, ModelMap modelMap) {
+    public String userRegister(@Valid RegistVo registVo, BindingResult bindingResult, ModelMap modelMap,HttpServletRequest request) {
         if (!bindingResult.hasErrors() && StringUtils.equals(registVo.getPassword(), registVo.getCpassword())) {
             String username = StringUtils.trim(registVo.getEmail());
             UsersDto usersDto = new UsersDto();
@@ -159,7 +190,9 @@ public class MainController {
             } else if (registVo.getUserType().equals("USERS_ENTER")) {
                 usersDto.setUserType(WorkBook.USERS_ENTER);
             }
-
+            usersDto.setIsActive(false);
+            usersDto.setActiveKey(RandomUtil.generateActivationKey());
+            usersDto.setResetKey(RandomUtil.generateResetKey());
             usersService.save(usersDto);
 
             AuthoritiesDto authoritiesDto = new AuthoritiesDto();
@@ -183,11 +216,84 @@ public class MainController {
                 enterpriseDto.setRealName("无名");
                 enterpriseService.save(enterpriseDto);
             }
-            modelMap.addAttribute("msg", "注册成功!");
+
+            String path = request.getContextPath();
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+            mailService.sendActivationEmail(usersDto,basePath);
+
+            modelMap.addAttribute("msg", "注册成功!已将激活邮件发至您的邮箱!");
         } else {
             modelMap.addAttribute("msg", "验证信息有误!");
         }
         return "login";
+    }
+
+    /**
+     * 检验激活
+     * @param username
+     * @return
+     */
+    @RequestMapping("/validateActive")
+    @ResponseBody
+    public AjaxData validateActive(@RequestParam("username") String username){
+        UsersDto usersDto = usersService.findByUsername(username);
+        if(!ObjectUtils.isEmpty(usersDto)){
+            if(usersDto.getIsActive()){
+                return new AjaxData().success().msg("账号已激活!");
+            }  else {
+                return new AjaxData().fail().msg("账号未激活!");
+            }
+        } else {
+            return new AjaxData().fail().msg("参数异常!");
+        }
+    }
+
+    /**
+     * 重新激活
+     * @param username
+     * @return
+     */
+    @RequestMapping("/againActive")
+    @ResponseBody
+    public AjaxData againActive(@RequestParam("username") String username,HttpServletRequest request){
+        UsersDto usersDto = usersService.findByUsername(username);
+        if(!ObjectUtils.isEmpty(usersDto)){
+            String path = request.getContextPath();
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+            mailService.sendActivationEmail(usersDto,basePath);
+            return new AjaxData().success().msg("发送成功!");
+        } else {
+            return  new AjaxData().fail().msg("账号不存在!");
+        }
+    }
+
+    /**
+     * 激活账号
+     * @param username
+     * @param activeKey
+     * @param modelMap
+     * @param request
+     * @return
+     */
+    @RequestMapping("/activation")
+    public String activation(@RequestParam("username") String username,@RequestParam("activeKey") String activeKey,ModelMap modelMap,HttpServletRequest request){
+        UsersDto usersDto = usersService.findByUsername(username);
+        if(!ObjectUtils.isEmpty(usersDto)){
+            if(usersDto.getActiveKey().equals(activeKey)){
+                usersDto.setIsActive(true);
+                usersDto.setActiveKey(RandomUtil.generateActivationKey());
+                usersService.update(usersDto);
+                String path = request.getContextPath();
+                String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
+                mailService.sendCreationEmail(usersDto,basePath);
+                modelMap.addAttribute("msg","账号:"+username+"激活成功!");
+            } else {
+                modelMap.addAttribute("msg","激活码不正确,不能激活!");
+            }
+        } else {
+            modelMap.addAttribute("msg","账号不存在!");
+        }
+        return "user/yanzhengsuccess";
     }
 
     /**
@@ -212,11 +318,17 @@ public class MainController {
      * Administration zone index.
      */
     @RequestMapping("/admin/index")
-    public String adminIndex(HttpServletRequest request) {
+    public String adminIndex(HttpServletRequest request,ModelMap modelMap) {
         UsersDto usersDto = usersService.getUserBySession();
         PersonalDto personalDto = personalService.findByUsername(usersDto.getUsername());
         HttpSession session = request.getSession();
         session.setAttribute("users", personalDto);
+
+        List<ResumeDto> newResumes = resumeService.findAllAndPage(0, 3, null);
+        List<ResumeDto> allResumes = resumeService.findAllAndPage(0, 10, null);
+        modelMap.addAttribute("newResumes", newResumes);
+        modelMap.addAttribute("allResumes", allResumes);
+
         return "admin/index";
     }
 
@@ -224,11 +336,17 @@ public class MainController {
      * Enterprise zone index.
      */
     @RequestMapping("/enterprise/index")
-    public String enterpriseIndex(HttpServletRequest request) {
+    public String enterpriseIndex(HttpServletRequest request,ModelMap modelMap) {
         UsersDto usersDto = usersService.getUserBySession();
         EnterpriseDto enterpriseDto = enterpriseService.findByUsername(usersDto.getUsername());
         HttpSession session = request.getSession();
         session.setAttribute("users", enterpriseDto);
+
+        List<ResumeDto> newResumes = resumeService.findAllAndPage(0, 3, null);
+        List<ResumeDto> allResumes = resumeService.findAllAndPage(0, 10, null);
+        modelMap.addAttribute("newResumes", newResumes);
+        modelMap.addAttribute("allResumes", allResumes);
+
         return "enterprise/index";
     }
 
@@ -236,11 +354,17 @@ public class MainController {
      * Personal zone index.
      */
     @RequestMapping("/personal/index")
-    public String personalIndex(HttpServletRequest request) {
+    public String personalIndex(HttpServletRequest request,ModelMap modelMap) {
         UsersDto usersDto = usersService.getUserBySession();
         PersonalDto personalDto = personalService.findByUsername(usersDto.getUsername());
         HttpSession session = request.getSession();
         session.setAttribute("users", personalDto);
+
+        List<ResumeDto> newResumes = resumeService.findAllAndPage(0, 3, null);
+        List<ResumeDto> allResumes = resumeService.findAllAndPage(0, 10, null);
+        modelMap.addAttribute("newResumes", newResumes);
+        modelMap.addAttribute("allResumes", allResumes);
+
         return "personal/index";
     }
 

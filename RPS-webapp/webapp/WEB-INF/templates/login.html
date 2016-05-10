@@ -36,38 +36,23 @@
 
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">个人简历制作系统</a>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">登录</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation" tiles:include="header">
+
 </div>
 
 <div class="container">
 
     <div class="starter-template">
         <div class="col-md-4 col-md-offset-3">
-            <form class="form-signin" role="form" th:action="@{/j_spring_security_check}" method="post" data-validator-option="{theme:'yellow_right_effect',stopOnError:true}">
+            <form class="form-signin" id="loginForm" role="form" th:action="@{/j_spring_security_check}" method="post" data-validator-option="{theme:'yellow_right_effect',stopOnError:true}">
                 <h2 class="form-signin-heading">登录系统</h2>
-                <input type="email" class="form-control" placeholder="邮箱" autofocus="autofocus" name="j_username" data-rule="required;email" />
+                <input type="email" class="form-control" placeholder="邮箱" autofocus="autofocus" id="j_username" name="j_username" data-rule="required;email" />
                 <input type="password" class="form-control" placeholder="密码" name="j_password" data-rule="密码:required;password" data-rule-password="[/^\w{6,}$/, '请填写6位及以上任意字母组成']"  data-msg-required="请填写密码" />
                 <p class="text-right">
                     <a href="#" th:href="@{/regist}" >注册</a>
                 </p>
-                <p th:text="${msg}"></p>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+                <p id="error" th:text="${msg}"></p>
+                <button class="btn btn-lg btn-primary btn-block" type="button" onclick="toLogin();" >登录</button>
             </form>
         </div>
     </div>
@@ -83,6 +68,7 @@
 <script src="js/csrf.js" th:src="@{/js/csrf.js}"></script>
 <script type="text/javascript" src="path/to/validator/jquery.validator.js" th:src="@{/js/jquery.validator.js}" ></script>
 <script type="text/javascript" src="path/to/validator/local/zh_CN.js" th:src="@{/js/local/zh-CN.js}" ></script>
+<script src="js/rps/login.js" th:src="@{/js/rps/login.js}"></script>
 </body>
 
 <!-- Mirrored from v3.bootcss.com/examples/starter-template/ by HTTrack Website Copier/3.x [XR&CO'2013], Sun, 26 Jan 2014 11:51:16 GMT -->

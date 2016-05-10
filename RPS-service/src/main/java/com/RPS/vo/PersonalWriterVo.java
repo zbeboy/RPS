@@ -4,15 +4,26 @@ package com.RPS.vo;
  * Created by Administrator on 2016/5/9.
  */
 public class PersonalWriterVo {
+    private int id;
     private String title;
     private String realName;
     private int sex;
     private int age;
     private String education;
     private String telNo;
+    private String jobInterview;
     private String educationSituation;
     private String practicalExperience;
     private String selfEvaluation;
+    private String resumeImg;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -62,6 +73,14 @@ public class PersonalWriterVo {
         this.telNo = telNo;
     }
 
+    public String getJobInterview() {
+        return jobInterview;
+    }
+
+    public void setJobInterview(String jobInterview) {
+        this.jobInterview = jobInterview;
+    }
+
     public String getEducationSituation() {
         return educationSituation;
     }
@@ -86,18 +105,29 @@ public class PersonalWriterVo {
         this.selfEvaluation = selfEvaluation;
     }
 
+    public String getResumeImg() {
+        return resumeImg;
+    }
+
+    public void setResumeImg(String resumeImg) {
+        this.resumeImg = resumeImg;
+    }
+
     @Override
     public String toString() {
         return "PersonalWriterVo{" +
-                "title='" + title + '\'' +
+                "id=" + id +
+                ", title='" + title + '\'' +
                 ", realName='" + realName + '\'' +
                 ", sex=" + sex +
                 ", age=" + age +
                 ", education='" + education + '\'' +
                 ", telNo='" + telNo + '\'' +
+                ", jobInterview='" + jobInterview + '\'' +
                 ", educationSituation='" + educationSituation + '\'' +
                 ", practicalExperience='" + practicalExperience + '\'' +
                 ", selfEvaluation='" + selfEvaluation + '\'' +
+                ", resumeImg='" + resumeImg + '\'' +
                 '}';
     }
 }
